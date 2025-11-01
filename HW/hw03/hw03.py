@@ -19,12 +19,15 @@ def num_eights(n):
     >>> num_eights(8782089)
     3
     >>> from construct_check import check
-    >>> # ban all assignment statements
+    >>> # ban all assignment statements     三元表达式代替赋值
     >>> check(HW_SOURCE_FILE, 'num_eights',
     ...       ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'For', 'While'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    if n == 0:
+        return 0
+    else:
+        return (1 if n % 10 == 8 else 0) + num_eights(n // 10) 
 
 
 def digit_distance(n):
@@ -41,12 +44,17 @@ def digit_distance(n):
     >>> digit_distance(3464660003)  # 1 + 2 + 2 + 2 + ... + 3
     16
     >>> from construct_check import check
-    >>> # ban all loops
+    >>> # ban all loops     递归代替循环
     >>> check(HW_SOURCE_FILE, 'digit_distance',
     ...       ['For', 'While'])
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    digit1 = n % 10
+    digit2 = n // 10 % 10
+    return abs(digit1 - digit2) + digit_distance(n // 10)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +79,14 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(i, use_odd):
+        if i > n:
+            return 0
+        if use_odd:
+            return odd_func(i) + helper(i+1,False)
+        else:
+            return even_func(i) + helper(i+1,True)
+    return helper(1,True)
 
 
 def next_smaller_dollar(bill):
@@ -107,7 +123,6 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
