@@ -123,6 +123,13 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_using(total, bill):
+        if total == 0:
+            return 1
+        if total < 0 or bill is None:
+            return 0
+        return count_using(total - bill, bill) + count_using(total, next_smaller_dollar(bill))
+    return count_using(total, 100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
@@ -158,6 +165,13 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_using(total, bill):
+        if total == 0:
+            return 1
+        if total < 0 or bill is None:
+            return 0
+        return count_using(total - bill, bill) + count_using(total, next_larger_dollar(bill))
+    return count_using(total, 1)
 
 
 def print_move(origin, destination):
@@ -193,6 +207,15 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start,end)
+    else:
+        help = 1
+        while help == start or help == end:
+            help += 1
+        move_stack(n-1, start, help)
+        print_move(start, end)
+        move_stack(n-1, help, end)
 
 
 from operator import sub, mul
@@ -208,5 +231,4 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return (lambda f: (lambda n: 1 if n == 0 else mul(n, f(f)(sub(n, 1)))))(lambda f: (lambda n: 1 if n == 0 else mul(n, f(f)(sub(n, 1)))))
